@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  final String baseUrl = 'http://10.0.2.2:8080';
+  final String baseUrl = 'http://localhost:8080';
   //final String baseUrl = 'http://52.15.61.91:8080';
 
   Future<http.Response> cadastrarUsuario(Map<String, dynamic> dados) async {
@@ -76,6 +76,47 @@ class ApiService {
       return response;
     } catch (error) {
       throw Exception('Erro ao buscar perfil do usuário: $error');
+    }
+  }
+
+  Future<http.Response> getTreinos(String token) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/treinos/listar'), // Substitua pelo endpoint correto para obter o perfil do usuário
+        headers: headers,
+      );
+
+      return response;
+    } catch (error) {
+      print('$error');
+      throw Exception('Erro ao buscar treinos do usuário: $error');
+    }
+  }
+  Future<http.Response> getTreino(String token, String id) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    print('$baseUrl/treinos/listar/$id');
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/treinos/detalhar/$id'), // Substitua pelo endpoint correto para obter o perfil do usuário
+        headers: headers,
+      );
+
+      print('Response body: ${response.body}');
+
+
+      return response;
+    } catch (error) {
+      print('$error');
+      throw Exception('Erro ao buscar treinos do usuário: $error');
     }
   }
 }

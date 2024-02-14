@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'package:dtplan_app/services/token_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
+import '../services/token_service.dart';
 import '../services/api_service.dart';
-import 'perfil/perfil_screen.dart'; // Supondo que este seja o caminho do seu PerfilScreen
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -18,7 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController senhaController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
-  bool _isLoading = false; // Adicionado para controlar o estado de carregamento
+  bool _isLoading = false;
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -26,8 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         String token = await apiService.login(loginController.text, senhaController.text);
         await _tokenService.saveToken(token);
-        print(_tokenService.getToken());
-        Navigator.pushNamed(context, '/perfil');
+        Navigator.pushReplacementNamed(context, '/main'); // Redireciona para a tela com a barra de navegação
       } catch (e) {
         setState(() => _isLoading = false);
         _showErrorDialog(context, e.toString());
@@ -100,14 +95,14 @@ class _LoginScreenState extends State<LoginScreen> {
               _isLoading
                   ? CircularProgressIndicator()
                   : ElevatedButton(
-                onPressed: _login,
-                child: Text('Login'),
-              ),
+                      onPressed: _login,
+                      child: Text('Login'),
+                    ),
               SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () => Navigator.pushNamed(context, '/cadastrarUsuario'), // Exemplo de navegação
+                  onPressed: () => Navigator.pushNamed(context, '/cadastrarUsuario'),
                   child: Text(
                     'Criar nova conta',
                     style: TextStyle(color: Theme.of(context).primaryColor),

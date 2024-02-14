@@ -15,20 +15,11 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Getter para acessar o token
+  String? get token => _token;
+
   // Verifica se o usuário está logado
   bool get isAuthenticated => _token != null;
-
-  // Método para fazer login
-  Future<void> _login(String username, String password) async {
-    // Aqui iria sua lógica de autenticação real
-    _token = 'seu_token_aqui';
-
-    // Salva o token em SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('authToken', _token!);
-
-    notifyListeners();
-  }
 
   // Método para fazer logout
   Future<void> logout() async {

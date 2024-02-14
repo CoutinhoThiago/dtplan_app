@@ -1,4 +1,4 @@
-import 'treino.dart';
+import 'treino/treino.dart';
 
 class PlanoTreino {
   final String nome;

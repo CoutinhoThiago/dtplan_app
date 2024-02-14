@@ -1,4 +1,4 @@
-import '../models/alimento.dart';
+import '../models/dieta/alimento.dart';
 
 class Refeicao {
   final String nome;
