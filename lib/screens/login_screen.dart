@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -62,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Icon(Icons.fitness_center, size: 120.0, color: Theme.of(context).primaryColor),
               TextFormField(
                 controller: loginController,
                 decoration: InputDecoration(labelText: 'Nome de Usuário'),
@@ -100,12 +102,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
               SizedBox(height: 20),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.center,
                 child: TextButton(
                   onPressed: () => Navigator.pushNamed(context, '/cadastrarUsuario'),
                   child: Text(
                     'Criar nova conta',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor
+                      ),
                   ),
                 ),
               ),

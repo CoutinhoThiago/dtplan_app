@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import '../../models/treino/exercicio/exercicio.dart'; 
 import '../../models/treino/treino.dart'; 
@@ -10,6 +12,7 @@ class CadastrarTreinoScreen extends StatefulWidget {
 
 class _CadastrarTreinoScreenState extends State<CadastrarTreinoScreen> {
   final _formKey = GlobalKey<FormState>();
+  late int? _usuarioId = 1;
   late String _descricao;
   late String _dia;
   late String _autor;
@@ -98,7 +101,7 @@ class _CadastrarTreinoScreenState extends State<CadastrarTreinoScreen> {
                   itemCount: _exercicios.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(_exercicios[index].descricao),
+                      title: Text(_exercicios[index].nome ?? 'Sem nome'),
                       // Exemplo: Substitua "descricao" pelo campo adequado do seu Exercicio
                       onTap: () {
                         // Adicione ação de detalhes se necessário
@@ -114,6 +117,7 @@ class _CadastrarTreinoScreenState extends State<CadastrarTreinoScreen> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       Treino novoTreino = Treino(
+                        usuarioId: _usuarioId,
                         descricao: _descricao,
                         autor: _autor,
                         tipo: _tipo,

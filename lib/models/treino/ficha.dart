@@ -25,6 +25,7 @@ class Ficha {
         id: json['treino']['id'], // Preencha o campo 'id' do treino com o valor do JSON
         descricao: json['treino']['descricao'], // Preencha o campo 'descricao' do treino com o valor do JSON
         autor: json['treino']['autor'], // Preencha o campo 'autor' do treino com o valor do JSON
+        usuarioId: json['treino']['usuarioId'],
         tipo: json['treino']['tipo'], // Preencha o campo 'tipo' do treino com o valor do JSON
       ),
       exercicios: exercicios,

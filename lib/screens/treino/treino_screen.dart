@@ -38,6 +38,7 @@ class _TreinoScreenState extends State<TreinoScreen> {
         descricao: item['descricao'],
         autor: item['autor'],
         tipo: item['tipo'],
+        usuarioId: item['usuarioId'],
       );
     }).toList();
     return treinos;

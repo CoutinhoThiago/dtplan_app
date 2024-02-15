@@ -15,6 +15,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _cpfController = TextEditingController();
   String _tipoContaSelecionada = 'Usuario'; // Valor padrão para o seletor de tipo de conta
+  bool _showPassword = false;
+  bool _showPasswordConfirmation = false;
 
   final List<String> _tiposConta = ['Professor', 'Usuario', 'Nutricionista']; // Opções para o seletor
 
@@ -23,6 +25,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro de Usuário'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -67,14 +70,30 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
               ),
               TextFormField(
                 controller: _senhaController,
-                decoration: InputDecoration(labelText: 'Senha'),
-                obscureText: true,
+                obscureText: !_showPassword,
+                decoration: InputDecoration(
+                  labelText: 'Senha',
+                  suffixIcon: IconButton(
+                    icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() => _showPassword = !_showPassword);
+                    },
+                  ),
+                ),
                 validator: (value) => value!.isEmpty ? 'Por favor, insira uma senha' : null,
               ),
               TextFormField(
                 controller: _confirmarSenhaController,
-                decoration: InputDecoration(labelText: 'Confirmar Senha'),
-                obscureText: true,
+                obscureText: !_showPasswordConfirmation,
+                decoration: InputDecoration(
+                  labelText: 'Confirmar Senha',
+                  suffixIcon: IconButton(
+                    icon: Icon(_showPasswordConfirmation ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() => _showPasswordConfirmation = !_showPasswordConfirmation);
+                    },
+                  ),
+                ),
                 validator: (value) => value != _senhaController.text ? 'As senhas não coincidem' : null,
               ),
               SizedBox(height: 20),
@@ -91,6 +110,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       context,
                     );
                   }
+                  Navigator.pushReplacementNamed(context, '/main');
                 },
                 child: Text('Cadastrar'),
               ),

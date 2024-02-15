@@ -9,8 +9,9 @@ class TreinoMusculacao extends Treino {
     required String descricao,
     required String autor,
     required String tipo,
+    required int? usuarioId,
     required this.fichas,
-  }) : super(id: id, descricao: descricao, autor: autor, tipo: tipo);
+  }) : super(id: id, descricao: descricao, autor: autor, tipo: tipo, usuarioId: usuarioId);
 
   factory TreinoMusculacao.fromJson(Map<String, dynamic> json) {
     // Parse dos dados do JSON
@@ -23,6 +24,7 @@ class TreinoMusculacao extends Treino {
       id: json['id'],
       descricao: json['descricao'],
       autor: json['autor'],
+      usuarioId: json['usuarioId'],
       tipo: json['tipo'],
       fichas: fichas,
     );

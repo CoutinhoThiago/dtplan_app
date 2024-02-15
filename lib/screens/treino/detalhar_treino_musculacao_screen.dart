@@ -5,6 +5,7 @@ import '../../services/token_service.dart';
 import '../../models/treino/ficha.dart';
 import '../../models/treino/treinoMusculacao.dart';
 import '../../models/treino/exercicio/exercicioMusculacao.dart';
+import '../treino/detalhar_exercicio_screen.dart';
 
 class DetalharTreinoMusculacaoScreen extends StatefulWidget {
   final int treinoId;
@@ -16,8 +17,7 @@ class DetalharTreinoMusculacaoScreen extends StatefulWidget {
       _DetalharTreinoMusculacaoScreenState();
 }
 
-class _DetalharTreinoMusculacaoScreenState
-    extends State<DetalharTreinoMusculacaoScreen> {
+class _DetalharTreinoMusculacaoScreenState extends State<DetalharTreinoMusculacaoScreen> {
   late Future<TreinoMusculacao> _futureTreinoMusculacao;
   final ApiService _apiService = ApiService();
   final TokenService _tokenService = TokenService();
@@ -25,12 +25,10 @@ class _DetalharTreinoMusculacaoScreenState
   @override
   void initState() {
     super.initState();
-    _futureTreinoMusculacao =
-        _carregarTreinoMusculacao(widget.treinoId);
+    _futureTreinoMusculacao = _carregarTreinoMusculacao(widget.treinoId);
   }
 
-  Future<TreinoMusculacao> _carregarTreinoMusculacao(
-      int treinoId) async {
+  Future<TreinoMusculacao> _carregarTreinoMusculacao(int treinoId) async {
     try {
       final token = await _tokenService.getToken();
       final response =
@@ -150,7 +148,7 @@ class _FichaItemState extends State<FichaItem> {
                   return Card(
                     margin: EdgeInsets.symmetric(vertical: 4),
                     child: ListTile(
-                      title: Text(exercicio.descricao),
+                      title: Text(exercicio.nome ?? 'Sem nome'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -169,6 +167,16 @@ class _FichaItemState extends State<FichaItem> {
                             ),
                         ],
                       ),
+                      onTap: () {
+                        if (exercicio.id != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetalharExercicioScreen(exercicioId: exercicio.id!),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   );
                 },

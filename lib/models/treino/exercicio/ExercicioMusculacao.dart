@@ -1,32 +1,35 @@
 import 'exercicio.dart';
 
 class ExercicioMusculacao extends Exercicio {
-  final int? fichaId; // Adicionado o campo 'fichaId'
-  final String musculoAlvo;
+  final int? id; // Adicionado o campo 'fichaId'
+  final String? musculoAlvo;
+  final int? series;
   final int? repeticoesMin;
   final int? repeticoesMax;
   final int? carga;
 
   ExercicioMusculacao({
-    required this.fichaId,
-    required String descricao,
+    required this.id,
+    required String? nome,
+    required this.series,
     required this.musculoAlvo,
     required this.repeticoesMin,
     required this.repeticoesMax,
     required this.carga,
   }) : super(
-    fichaId: fichaId,
-    descricao: descricao,
-    series: 0, // Ajuste para cardio
-    repeticoesMin: 0, // Ajuste para cardio
-    repeticoesMax: 0, // Ajuste para cardio
-    carga: 0, // Ajuste para cardio
+    id: id,
+    nome: nome,
+    series: series, // Ajuste para cardio
+    repeticoesMin: repeticoesMin, // Ajuste para cardio
+    repeticoesMax: repeticoesMax, // Ajuste para cardio
+    carga: carga, // Ajuste para cardio
   );
 
   factory ExercicioMusculacao.fromJson(Map<String, dynamic> json) {
     return ExercicioMusculacao(
-      fichaId: json['id'],
-      descricao: json['descricao'],
+      id: json['id'],
+      nome: json['nome'],
+      series: json['series'],
       musculoAlvo: json['musculo_alvo'],
       repeticoesMin: json['repeticoes_min'],
       repeticoesMax: json['repeticoes_max'],

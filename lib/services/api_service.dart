@@ -93,7 +93,6 @@ class ApiService {
 
       return response;
     } catch (error) {
-      print('$error');
       throw Exception('Erro ao buscar treinos do usuário: $error');
     }
   }
@@ -102,7 +101,6 @@ class ApiService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    print('$baseUrl/treinos/listar/$id');
 
     try {
       final response = await http.get(
@@ -110,12 +108,26 @@ class ApiService {
         headers: headers,
       );
 
-      print('Response body: ${response.body}');
+      return response;
+    } catch (error) {
+      throw Exception('Erro ao buscar treinos do usuário: $error');
+    }
+  }
 
+  Future<http.Response> getExercicio(String token, String id) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/exercicios/$id'), // Substitua pelo endpoint correto para obter o perfil do usuário
+        headers: headers,
+      );
 
       return response;
     } catch (error) {
-      print('$error');
       throw Exception('Erro ao buscar treinos do usuário: $error');
     }
   }
