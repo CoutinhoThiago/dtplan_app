@@ -6,13 +6,6 @@ import '../../models/treino/ficha.dart';
 import '../../models/treino/treinoMusculacao.dart';
 import '../../models/treino/exercicio/exercicioMusculacao.dart';
 
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:dtplan_app/services/api_service.dart';
-import '../../services/token_service.dart';
-import '../../models/treino/ficha.dart';
-import '../../models/treino/treinoMusculacao.dart';
-
 class DetalharTreinoMusculacaoScreen extends StatefulWidget {
   final int treinoId;
 
@@ -98,63 +91,92 @@ class _DetalharTreinoMusculacaoScreenState
           SizedBox(height: 8),
           Text(treinoMusculacao.descricao),
           SizedBox(height: 16),
-
           Expanded(
             child: ListView.builder(
               itemCount: treinoMusculacao.fichas.length,
               itemBuilder: (context, index) {
                 final ficha = treinoMusculacao.fichas[index];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${ficha.nome}   ', //'Dia: ${ficha.dia}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: ficha.exercicios.length,
-                      itemBuilder: (context, index) {
-                        final exercicio = ficha.exercicios[index];
-                        return Card(
-                          margin: EdgeInsets.symmetric(vertical: 4),
-                          child: ListTile(
-                            title: Text(exercicio.descricao),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Séries: ${exercicio.series}',
-                                ),
-                                Text(
-                                  'Repetições: ${exercicio.repeticoesMin}-${exercicio.repeticoesMax}',
-                                ),
-                                Text(
-                                  'Carga: ${exercicio.carga}',
-                                ),
-                                if (exercicio is ExercicioMusculacao)
-                                  Text(
-                                    'Músculo Alvo: ${exercicio.musculoAlvo}',
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    Divider(),
-                  ],
-                );
+                return FichaItem(ficha: ficha);
               },
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class FichaItem extends StatefulWidget {
+  final Ficha ficha;
+
+  const FichaItem({Key? key, required this.ficha}) : super(key: key);
+
+  @override
+  _FichaItemState createState() => _FichaItemState();
+}
+
+class _FichaItemState extends State<FichaItem> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextButton(
+          onPressed: () {
+            setState(() {
+              _isExpanded = !_isExpanded;
+            });
+          },
+          child: Text(
+            '${widget.ficha.nome}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: 8),
+        if (_isExpanded)
+          Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.ficha.exercicios.length,
+                itemBuilder: (context, index) {
+                  final exercicio = widget.ficha.exercicios[index];
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 4),
+                    child: ListTile(
+                      title: Text(exercicio.descricao),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Séries: ${exercicio.series}',
+                          ),
+                          Text(
+                            'Repetições: ${exercicio.repeticoesMin}-${exercicio.repeticoesMax}',
+                          ),
+                          Text(
+                            'Carga: ${exercicio.carga}',
+                          ),
+                          if (exercicio is ExercicioMusculacao)
+                            Text(
+                              'Músculo Alvo: ${exercicio.musculoAlvo}',
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Divider(),
+            ],
+          ),
+      ],
     );
   }
 }
